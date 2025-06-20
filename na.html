@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark Glow Buttons</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #1a1a2e, #16213e);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* STAR BACKGROUND */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: fall 10s linear infinite, twinkle 3s ease-in-out infinite;
+    }
+
+    .star.small { width: 2px; height: 2px; }
+    .star.medium { width: 3.5px; height: 3.5px; }
+    .star.large { width: 5px; height: 5px; }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh); }
+      100% { transform: translateY(110vh); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 0.3; }
+    }
+
+    /* CONTAINER */
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 50px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 30px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* DARK GLOW BUTTON */
+    .dark-glow-btn {
+      width: 200px;
+      height: 220px;
+      border: none;
+      border-radius: 25px;
+      background: #0d0d2b;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+      box-shadow:
+        0 0 20px rgba(0, 0, 50, 0.6),
+        0 0 30px rgba(0, 0, 255, 0.3),
+        inset 0 0 15px rgba(0, 0, 100, 0.4);
+      position: relative;
+    }
+
+    .dark-glow-btn:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 0 40px rgba(0, 0, 255, 0.8),
+        0 0 60px rgba(0, 0, 150, 0.6),
+        inset 0 0 25px rgba(0, 0, 120, 0.7);
+    }
+
+    .dark-glow-btn img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      border: 3px solid #4f83cc;
+      box-shadow: 0 0 12px #007fff;
+    }
+
+    .dark-glow-btn span {
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-shadow: 0 0 5px #4fc3f7;
+    }
+
+    @media (max-width: 500px) {
+      .dark-glow-btn {
+        width: 160px;
+        height: 190px;
+        padding: 15px;
+      }
+
+      .dark-glow-btn img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .dark-glow-btn span {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="container">
+    <button class="dark-glow-btn" onclick="location.href='index.html'">
+      <img src="https://static.vecteezy.com/system/resources/previews/031/610/037/non_2x/a-of-a-3d-cartoon-little-boy-in-class-world-students-day-images-ai-generative-photo.jpg" alt="Student" />
+      <span>Student</span>
+    </button>
+
+    <button class="dark-glow-btn" onclick="location.href='i.html'">
+      <img src="https://i.pinimg.com/originals/74/c7/9a/74c79ad33fa47102510e888209fbcf11.jpg" alt="Employee" />
+      <span>Employee</span>
+    </button>
+  </div>
+
+  <script>
+    const starsContainer = document.getElementById('stars');
+    const sizes = ['small', 'medium', 'large'];
+    for (let i = 0; i < 120; i++) {
+      const star = document.createElement('div');
+      star.className = 'star ' + sizes[Math.floor(Math.random() * sizes.length)];
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.animationDelay = (Math.random() * 10) + 's';
+      starsContainer.appendChild(star);
+    }
+  </script>
+
+</body>
+</html>

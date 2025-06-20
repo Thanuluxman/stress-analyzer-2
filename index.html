@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stress Analyzer - Home</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #b3e5fc, #81d4fa);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* STARRY BACKGROUND */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-name: fall, twinkle;
+    }
+    .star.small {
+      width: 1.5px;
+      height: 1.5px;
+      animation-duration: 5s, 3s;
+    }
+    .star.medium {
+      width: 3px;
+      height: 3px;
+      animation-duration: 8s, 4.5s;
+    }
+    .star.large {
+      width: 5px;
+      height: 5px;
+      animation-duration: 11s, 6s;
+    }
+    .star.xlarge {
+      width: 7px;
+      height: 7px;
+      animation-duration: 14s, 7s;
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-15vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.8;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    /* ENHANCED CONTAINER */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      width: 90%;
+      padding: 50px 40px;
+      border-radius: 25px;
+      background: linear-gradient(270deg, #ffffff, #e0f7fa, #ffffff);
+      background-size: 600% 600%;
+      animation: bgShift 15s ease infinite, floatY 6s ease-in-out infinite;
+      box-shadow:
+        0 10px 30px rgba(33, 150, 243, 0.3),
+        inset 0 0 40px #4fc3f7,
+        0 0 25px #42a5f5;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+    .container:hover {
+      box-shadow:
+        0 15px 45px rgba(33, 150, 243, 0.6),
+        inset 0 0 50px #29b6f6,
+        0 0 40px #29b6f6;
+      cursor: pointer;
+    }
+
+    @keyframes bgShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes floatY {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    /* HEADER TEXT */
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(270deg, #2196f3, #64b5f6, #2196f3);
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 8s ease infinite;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 2;
+      user-select: none;
+    }
+
+    /* Glowing animated bar below heading */
+    .glow-bar {
+      height: 7px;
+      width: 140px;
+      margin: 0 auto 40px auto;
+      border-radius: 20px;
+      background: linear-gradient(270deg, #42a5f5, #1e88e5, #42a5f5);
+      background-size: 400% 400%;
+      animation: glowShift 3.5s ease infinite;
+      box-shadow: 0 0 15px #42a5f5, 0 0 25px #1e88e5, 0 0 35px #42a5f5;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes glowShift {
+      0%, 100% {
+        background-position: 0% 50%;
+        box-shadow:
+          0 0 15px #42a5f5,
+          0 0 25px #1e88e5,
+          0 0 35px #42a5f5;
+      }
+      50% {
+        background-position: 100% 50%;
+        box-shadow:
+          0 0 25px #64b5f6,
+          0 0 40px #42a5f5,
+          0 0 50px #1e88e5;
+      }
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #01579b;
+      margin-bottom: 40px;
+      font-weight: 500;
+      user-select: none;
+    }
+
+    button {
+      padding: 16px 40px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(90deg, #42a5f5, #1976d2);
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      margin: 12px;
+      box-shadow: 0 6px 18px rgba(25, 118, 210, 0.5);
+      transition: all 0.3s ease;
+      outline-offset: 2px;
+      user-select: none;
+    }
+    button:hover {
+      box-shadow: 0 9px 25px rgba(25, 118, 210, 0.8);
+      transform: translateY(-4px);
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2.4rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      button {
+        padding: 12px 28px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="container" title="Welcome Container">
+    <h1>Welcome to Stress Analyzer</h1>
+    <div class="glow-bar"></div>
+    <p>Take a quick test to understand your stress levels and get helpful tips to manage them better.</p>
+    <button onclick="location.href='quiz.html'">Start Stress Test</button><br>
+    <button onclick="location.href='tamil.html'">IN TAMIL</button>
+  </div>
+
+  <script>
+    const starsContainer = document.getElementById('stars');
+
+    const starSizes = ['small', 'medium', 'large', 'xlarge'];
+    const starCount = 250;
+
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      const size = starSizes[Math.floor(Math.random() * starSizes.length)];
+      star.classList.add('star', size);
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = (Math.random() * -120) + 'vh';
+      star.style.animationDelay = (Math.random() * 12) + 's, ' + (Math.random() * 6) + 's';
+      starsContainer.appendChild(star);
+    }
+  </script>
+
+</body>
+</html>

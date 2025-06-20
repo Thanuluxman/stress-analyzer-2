@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stress Analyzer - Result</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #0b1f2a, #1a3d52);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      color: white;
+    }
+
+    /* Snow animation */
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: white;
+      font-size: 1.2em;
+      animation: fall linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    /* Container */
+    .container {
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 30, 60, 0.85);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0, 150, 255, 0.5);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      animation: fadeInScale 0.8s ease forwards;
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    @keyframes fadeInScale {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    /* Glowing circle animation */
+    .circle-progress {
+      position: relative;
+      margin: 0 auto 25px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: #002b4f;
+      box-shadow:
+        inset 0 0 25px #00eaff,
+        0 0 40px #00c8ff;
+    }
+
+    svg {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      transform: rotate(-90deg);
+      filter: drop-shadow(0 0 8px #00ffffaa);
+    }
+
+    circle {
+      fill: none;
+      stroke-width: 18;
+      stroke-linecap: round;
+    }
+
+    .circle-bg {
+      stroke: #003f5f;
+    }
+
+    .circle-fg {
+      stroke: url(#gradient);
+      stroke-dasharray: 439.82;
+      stroke-dashoffset: 439.82;
+      filter:
+        drop-shadow(0 0 6px #0ff)
+        drop-shadow(0 0 10px #0ffaa);
+      transition: stroke-dashoffset 1s ease;
+    }
+
+    .score-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 0 6px #0ff, 0 0 10px #0ff;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .message {
+      font-size: 1.3rem;
+      color: #cceeff;
+      margin-bottom: 35px;
+      min-height: 60px;
+    }
+
+    button {
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(90deg, #1f22ec, #0fd4e2);
+      color: white;
+      cursor: pointer;
+      margin: 10px;
+      box-shadow: 0 4px 15px rgba(0, 110, 255, 0.7);
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.7);
+    }
+
+    a {
+      color: #00ffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Snow effect -->
+  <div class="snow" id="snow"></div>
+
+  <div class="container">
+    <h1>Your Stress Score</h1>
+
+    <div class="circle-progress" aria-label="Stress score circle animation">
+      <svg>
+        <defs>
+          <linearGradient id="gradient" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#00ffff" />
+            <stop offset="100%" stop-color="#0077ff" />
+          </linearGradient>
+        </defs>
+        <circle class="circle-bg" cx="90" cy="90" r="70"></circle>
+        <circle class="circle-fg" cx="90" cy="90" r="70"></circle>
+      </svg>
+      <div class="score-text" id="scoreText">--%</div>
+    </div>
+
+    <div class="message" id="message">Calculating your stress level...</div>
+
+    <div>
+      <button onclick="retakeTest()">Retake Test</button>
+      <button onclick="location.href='more.html'">More Tips</button>
+    </div>
+  </div>
+
+  <script>
+    const circleFg = document.querySelector('.circle-fg');
+    const scoreText = document.getElementById('scoreText');
+    const message = document.getElementById('message');
+    const circumference = 2 * Math.PI * 70;
+
+    const scoreFromStorage = localStorage.getItem('stressScore');
+
+    if (!scoreFromStorage || isNaN(scoreFromStorage)) {
+      scoreText.textContent = "--%";
+      message.innerHTML = "No score available.<br>Please take the <a href='index.html'>test first</a>!";
+      circleFg.style.strokeDashoffset = 439.82;
+      circleFg.style.stroke = '#555';
+      circleFg.style.filter = 'none';
+    } else {
+      let finalScore = Math.min(Math.max(parseInt(scoreFromStorage), 0), 100);
+      let currentScore = 0;
+
+      function animateScore() {
+        const interval = setInterval(() => {
+          if (currentScore >= finalScore) {
+            clearInterval(interval);
+            showMessage(finalScore);
+          } else {
+            currentScore++;
+            updateDisplay(currentScore);
+          }
+        }, 15);
+      }
+
+      function updateDisplay(score) {
+        const offset = circumference - (score / 100) * circumference;
+        circleFg.style.strokeDashoffset = offset;
+        scoreText.textContent = score + "%";
+      }
+
+      function showMessage(score) {
+        if (score < 30) {
+          message.innerHTML = "You are experiencing <strong>Low Stress</strong>. Keep it up! 😊";
+        } else if (score < 70) {
+          message.innerHTML = "You are experiencing <strong>Moderate Stress</strong>. Try relaxing and self-care. 🧘";
+        } else {
+          message.innerHTML = "You are experiencing <strong>High Stress</strong>. Please take care and seek support. 💆";
+        }
+      }
+
+      animateScore();
+    }
+
+    function retakeTest() {
+      localStorage.removeItem('stressScore');
+      window.location.href = 'index.html';
+    }
+
+    // Snowfall generation
+    const snowContainer = document.getElementById('snow');
+    for (let i = 0; i < 60; i++) {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.style.left = Math.random() * 100 + 'vw';
+      snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      snowflake.style.fontSize = (Math.random() * 10 + 8) + 'px';
+      snowflake.textContent = '❄';
+      snowContainer.appendChild(snowflake);
+    }
+  </script>
+
+</body>
+</html>

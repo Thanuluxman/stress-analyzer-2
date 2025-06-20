@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stress Management Tips</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    /* Background with subtle moving particles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0a0f20;
+      overflow-y: auto;
+      color: #e0f7fa;
+      position: relative;
+    }
+    /* Particles using radial gradients */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 30%, #00e5ff55 2px, transparent 0),
+        radial-gradient(circle at 50% 70%, #00b8d9aa 3px, transparent 0),
+        radial-gradient(circle at 80% 40%, #00ffff44 1.5px, transparent 0);
+      background-repeat: repeat;
+      background-size: 100px 100px;
+      animation: particlesMove 60s linear infinite;
+      z-index: 0;
+    }
+    @keyframes particlesMove {
+      0% { background-position: 0 0, 0 0, 0 0; }
+      100% { background-position: 200px 100px, -150px 150px, 150px -100px; }
+    }
+
+    /* Container with glass + neon glow */
+    .tips-container {
+      position: relative;
+      z-index: 1;
+      background: rgba(10, 15, 32, 0.55);
+      border-radius: 25px;
+      padding: 45px 50px 55px;
+      max-width: 720px;
+      width: 95%;
+      box-shadow:
+        0 0 20px 2px #00e5ffaa,
+        0 0 40px 6px #00b8d9cc,
+        inset 0 0 40px 6px #00e5ff66;
+      backdrop-filter: blur(18px);
+      border: 1.5px solid #00e5ff88;
+      animation: fadeInScale 0.9s ease forwards;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Heading with gradient text */
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 30px 0 40px;
+      text-align: center;
+      background: linear-gradient(45deg, #00fff7, #00a3ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 5px #00e5ffcc);
+      letter-spacing: 1.5px;
+      user-select: none;
+    }
+
+    /* Video container with neon border + glow */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      margin-bottom: 45px;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow:
+        0 0 15px 2px #00e5ffcc,
+        0 0 30px 7px #00aaffbb;
+      border: 2px solid #00dfffaa;
+      transition: box-shadow 0.4s ease;
+    }
+    .video-container:hover {
+      box-shadow:
+        0 0 40px 8px #00fff7ee,
+        0 0 60px 15px #00aaffee;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 22px;
+      filter: drop-shadow(0 0 5px #00b8d9cc);
+      user-select: none;
+    }
+
+    /* Tips styling */
+    .tip {
+      background: rgba(0, 230, 255, 0.08);
+      margin: 20px 0;
+      padding: 24px 28px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      box-shadow:
+        0 0 12px 1px #00e5ff77,
+        inset 0 0 25px 3px #00d6ffaa;
+      cursor: pointer;
+      text-decoration: none;
+      color: #b3f0ff;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.25s ease;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .tip::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, #00f0ff44 20%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      border-radius: 20px;
+      filter: blur(10px);
+      z-index: 0;
+    }
+    .tip:hover::before {
+      opacity: 1;
+      animation: pulseGlow 2.5s infinite ease-in-out;
+    }
+    @keyframes pulseGlow {
+      0%, 100% {opacity: 0.6;}
+      50% {opacity: 1;}
+    }
+    .tip:hover {
+      background: rgba(0, 255, 255, 0.15);
+      box-shadow:
+        0 0 22px 5px #00ffffbb,
+        inset 0 0 40px 6px #00e5ffcc;
+      transform: scale(1.06);
+      color: #e0ffff;
+      z-index: 1;
+    }
+
+    .tip-icon {
+      font-size: 2.8rem;
+      width: 62px;
+      height: 62px;
+      background: linear-gradient(135deg, #00ffff, #0099ff);
+      color: #00181a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      box-shadow:
+        0 0 15px #00e5ffcc,
+        0 0 20px 4px #00aaffbb;
+      flex-shrink: 0;
+      user-select: none;
+      animation: floatPulse 3.5s ease-in-out infinite;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .tip:hover .tip-icon {
+      background: linear-gradient(135deg, #00aaff, #00ffff);
+      box-shadow: 0 0 25px 10px #00ffffcc;
+    }
+    @keyframes floatPulse {
+      0%, 100% { transform: translateY(0) scale(1);}
+      50% { transform: translateY(-6px) scale(1.05);}
+    }
+
+    .tip-text {
+      flex: 1;
+      line-height: 1.35;
+      user-select: text;
+      text-shadow: 0 0 3px #00caffbb;
+    }
+
+    /* Back button with neon glow */
+    .back-btn {
+      display: block;
+      margin: 45px auto 0 auto;
+      padding: 16px 40px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 40px;
+      background: linear-gradient(45deg, #00c9ff, #92fe9d);
+      color: #003a00;
+      cursor: pointer;
+      box-shadow:
+        0 0 25px 6px #00e5ffcc,
+        0 0 40px 10px #00caffcc;
+      transition: all 0.35s ease;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      user-select: none;
+      filter: drop-shadow(0 0 4px #00dfffcc);
+    }
+    .back-btn:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 0 40px 10px #00ffffee,
+        0 0 55px 18px #00cfffee;
+      color: #001f00;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .tip {
+        flex-direction: column;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+      .tip-icon {
+        margin-bottom: 14px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="tips-container">
+
+    <div class="video-container">
+      <iframe 
+        src="https://www.youtube.com/embed/Wh5HyJ1rxzk?si=uJ-1wgu1_dqT0RQv" 
+        title="Stress Relief Video" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <h1>Stress Relief Tips</h1>
+
+    <a href="https://www.headspace.com/meditation/meditation-for-beginners" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">🧘</div>
+      <div class="tip-text"><strong>Meditate</strong> for 10 minutes a day to calm your mind and reduce stress.</div>
+    </a>
+
+    <a href="https://open.spotify.com/genre/relaxation" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">🎵</div>
+      <div class="tip-text"><strong>Listen to music</strong> that relaxes you — like lo-fi, classical, or ambient sounds.</div>
+    </a>
+
+    <a href="https://www.medicalnewstoday.com/articles/324417" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">🚶</div>
+      <div class="tip-text"><strong>Take a walk</strong> in nature or just get some fresh air to reset your mood.</div>
+    </a>
+
+    <a href="https://www.journaling.com/how-to-start-journaling/" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">📓</div>
+      <div class="tip-text"><strong>Journal your thoughts</strong> to release internal pressure and find clarity.</div>
+    </a>
+
+    <a href="https://www.sleepfoundation.org/sleep-hygiene/healthy-sleep-tips" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">🛌</div>
+      <div class="tip-text"><strong>Sleep well</strong>. A full night’s sleep is one of the best remedies for stress.</div>
+    </a>
+
+    <a href="https://www.apa.org/topics/exercise-fitness/stress" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">🏃‍♂️</div>
+      <div class="tip-text"><strong>Exercise regularly</strong> to boost endorphins and improve your mood.</div>
+    </a>
+
+    <a href="https://www.healthline.com/nutrition/foods-for-stress-relief" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">🥦</div>
+      <div class="tip-text"><strong>Eat healthy</strong> foods rich in vitamins and minerals to help your body handle stress better.</div>
+    </a>
+
+    <a href="https://www.psychologytoday.com/us/blog/brainstorm/201812/why-laughing-is-good-your-health" target="_blank" class="tip" rel="noopener noreferrer">
+      <div class="tip-icon">😂</div>
+      <div class="tip-text"><strong>Laugh more</strong> — laughter helps reduce stress hormones and increases immune cells.</div>
+    </a>
+
+    <button class="back-btn" onclick="goBack()">Back to Home</button>
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>

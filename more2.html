@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>மனஅழுத்த மேலாண்மை உதவிகள்</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0a0f20;
+      overflow-y: auto;
+      color: #e0f7fa;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 30%, #00e5ff55 2px, transparent 0),
+        radial-gradient(circle at 50% 70%, #00b8d9aa 3px, transparent 0),
+        radial-gradient(circle at 80% 40%, #00ffff44 1.5px, transparent 0);
+      background-repeat: repeat;
+      background-size: 100px 100px;
+      animation: particlesMove 60s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes particlesMove {
+      0% { background-position: 0 0, 0 0, 0 0; }
+      100% { background-position: 200px 100px, -150px 150px, 150px -100px; }
+    }
+
+    .tips-container {
+      position: relative;
+      z-index: 1;
+      background: rgba(10, 15, 32, 0.55);
+      border-radius: 25px;
+      padding: 45px 50px 55px;
+      max-width: 720px;
+      width: 95%;
+      box-shadow:
+        0 0 20px 2px #00e5ffaa,
+        0 0 40px 6px #00b8d9cc,
+        inset 0 0 40px 6px #00e5ff66;
+      backdrop-filter: blur(18px);
+      border: 1.5px solid #00e5ff88;
+      animation: fadeInScale 0.9s ease forwards;
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin: 30px 0 40px;
+      text-align: center;
+      background: linear-gradient(45deg, #00fff7, #00a3ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 5px #00e5ffcc);
+      letter-spacing: 1.5px;
+      user-select: none;
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      margin-bottom: 45px;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow:
+        0 0 15px 2px #00e5ffcc,
+        0 0 30px 7px #00aaffbb;
+      border: 2px solid #00dfffaa;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 22px;
+      filter: drop-shadow(0 0 5px #00b8d9cc);
+    }
+
+    .tip {
+      background: rgba(0, 230, 255, 0.08);
+      margin: 20px 0;
+      padding: 24px 28px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      box-shadow: 0 0 12px 1px #00e5ff77, inset 0 0 25px 3px #00d6ffaa;
+      cursor: pointer;
+      text-decoration: none;
+      color: #b3f0ff;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .tip:hover {
+      background: rgba(0, 255, 255, 0.15);
+      box-shadow: 0 0 22px 5px #00ffffbb, inset 0 0 40px 6px #00e5ffcc;
+      transform: scale(1.06);
+      color: #e0ffff;
+      z-index: 1;
+    }
+
+    .tip-icon {
+      font-size: 2.8rem;
+      width: 62px;
+      height: 62px;
+      background: linear-gradient(135deg, #00ffff, #0099ff);
+      color: #00181a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #00e5ffcc, 0 0 20px 4px #00aaffbb;
+      flex-shrink: 0;
+    }
+
+    .tip-text {
+      flex: 1;
+      line-height: 1.35;
+      text-shadow: 0 0 3px #00caffbb;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 45px auto 0 auto;
+      padding: 16px 40px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 40px;
+      background: linear-gradient(45deg, #00c9ff, #92fe9d);
+      color: #003a00;
+      cursor: pointer;
+      box-shadow: 0 0 25px 6px #00e5ffcc, 0 0 40px 10px #00caffcc;
+      transition: all 0.35s ease;
+      letter-spacing: 1.3px;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 40px 10px #00ffffee, 0 0 55px 18px #00cfffee;
+      color: #001f00;
+    }
+
+    @media (max-width: 480px) {
+      .tip {
+        flex-direction: column;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+      .tip-icon {
+        margin-bottom: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tips-container">
+    <div class="video-container">
+      <iframe 
+        src="https://www.youtube.com/embed/M8JQ3deawzo" 
+        title="Stress Relief Video" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <h1>மனஅழுத்தம் குறைக்கும் வழிகள்</h1>
+
+    <a href="https://www.headspace.com/meditation/meditation-for-beginners" target="_blank" class="tip">
+      <div class="tip-icon">🧘</div>
+      <div class="tip-text"><strong>தியானம் செய்யுங்கள்:</strong> தினமும் 10 நிமிடங்கள் உங்கள் மனதை அமைதியாக்குங்கள்.</div>
+    </a>
+
+    <a href="https://open.spotify.com/" target="_blank" class="tip">
+      <div class="tip-icon">🎵</div>
+      <div class="tip-text"><strong>இசை கேளுங்கள்:</strong> அமைதியான இசை உங்கள் மனஅழுத்தத்தை குறைக்க உதவுகிறது.</div>
+    </a>
+
+    <a href="https://www.medicalnewstoday.com/articles/324417" target="_blank" class="tip">
+      <div class="tip-icon">🚶</div>
+      <div class="tip-text"><strong>நடப்பதற்குச் செல்லுங்கள்:</strong> இயற்கையில் சிறிது நேரம் செலவிடுங்கள்.</div>
+    </a>
+
+    <a href="https://www.journaling.com/how-to-start-journaling/" target="_blank" class="tip">
+      <div class="tip-icon">📓</div>
+      <div class="tip-text"><strong>ஜர்னல் எழுதுங்கள்:</strong> உங்கள் உணர்வுகளை வெளிப்படுத்த இது சிறந்த வழியாகும்.</div>
+    </a>
+
+    <a href="https://www.sleepfoundation.org/sleep-hygiene/healthy-sleep-tips" target="_blank" class="tip">
+      <div class="tip-icon">🛌</div>
+      <div class="tip-text"><strong>நல்ல தூக்கம் பெறுங்கள்:</strong> நல்ல தூக்கம் மனஅழுத்தத்தை குறைக்க உதவுகிறது.</div>
+    </a>
+
+    <a href="https://www.apa.org/topics/exercise-fitness/stress" target="_blank" class="tip">
+      <div class="tip-icon">🏃‍♂️</div>
+      <div class="tip-text"><strong>உடற்பயிற்சி செய்யுங்கள்:</strong> இது உங்கள் மனநிலையை மேம்படுத்தும்.</div>
+    </a>
+
+    <a href="https://www.healthline.com/nutrition/foods-for-stress-relief" target="_blank" class="tip">
+      <div class="tip-icon">🥦</div>
+      <div class="tip-text"><strong>ஊட்டச்சத்து உணவு:</strong> சரியான உணவு உங்கள் உடலை சமநிலையாக்க உதவுகிறது.</div>
+    </a>
+
+    <a href="https://www.psychologytoday.com/us/blog/brainstorm/201812/why-laughing-is-good-your-health" target="_blank" class="tip">
+      <div class="tip-icon">😂</div>
+      <div class="tip-text"><strong>சிரித்து மகிழுங்கள்:</strong> சிரிப்பு மனஅழுத்தத்தை குறைக்கும் வழிகளில் ஒன்று.</div>
+    </a>
+
+    <button class="back-btn" onclick="window.location.href='index.html'">மீண்டும் செல்ல</button>
+  </div>
+
+</body>
+</html>

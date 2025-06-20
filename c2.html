@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stress Analyzer - Result</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #0a224a, #001533);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      color: white;
+    }
+
+    /* Snow */
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: white;
+      font-size: 1.2em;
+      opacity: 0.8;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    /* Container */
+    .container {
+      background: rgba(0, 30, 70, 0.85);
+      border: 2px solid rgba(0, 160, 255, 0.3);
+      box-shadow: 0 0 40px rgba(0, 150, 255, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 480px;
+      z-index: 2;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      color: #00d4ff;
+      text-shadow: 0 0 10px #00aaff;
+    }
+
+    /* Glowing progress ring */
+    .progress-ring {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 20px auto;
+    }
+
+    .progress-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring circle {
+      fill: none;
+      stroke-width: 15;
+      stroke-linecap: round;
+    }
+
+    .progress-bg {
+      stroke: #003b6f;
+    }
+
+    .progress-fg {
+      stroke: url(#grad1);
+      stroke-dasharray: 440;
+      stroke-dashoffset: 440;
+      animation: glow 2.5s ease-in-out infinite;
+      transition: stroke-dashoffset 0.5s ease;
+      filter: drop-shadow(0 0 8px #00d4ffaa);
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        filter: drop-shadow(0 0 6px #00d4ffcc);
+      }
+      50% {
+        filter: drop-shadow(0 0 15px #00e5ffcc);
+      }
+    }
+
+    .score-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      font-weight: 800;
+      color: #00cfff;
+      text-shadow: 0 0 8px #00d4ffcc;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .message {
+      font-size: 1.3rem;
+      color: #99dfff;
+      margin-bottom: 35px;
+      min-height: 60px;
+      user-select: none;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(90deg, #1f22ec, #0fd4e2);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 110, 255, 0.7);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      min-width: 140px;
+      user-select: none;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 30px rgba(0, 200, 255, 0.9);
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      .score-text {
+        font-size: 2.2rem;
+      }
+      .progress-ring {
+        width: 140px;
+        height: 140px;
+      }
+      button {
+        min-width: 120px;
+        font-size: 1rem;
+      }
+    }
+
+    a {
+      color: #00cfff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Snow background -->
+  <div class="snow" id="snow"></div>
+
+  <!-- Main Container -->
+  <div class="container" role="main" aria-labelledby="resultTitle">
+    <h1 id="resultTitle">Your Stress Score</h1>
+
+    <div class="progress-ring" aria-label="Stress score progress">
+      <svg>
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00f0ff" />
+            <stop offset="100%" stop-color="#1f22ec" />
+          </linearGradient>
+        </defs>
+        <circle class="progress-bg" cx="90" cy="90" r="70"></circle>
+        <circle class="progress-fg" cx="90" cy="90" r="70"></circle>
+      </svg>
+      <div class="score-text" id="scoreText">--%</div>
+    </div>
+
+    <div class="message" id="message" aria-live="polite">Calculating your stress level...</div>
+
+    <div class="buttons">
+      <button type="button" onclick="retakeTest()" aria-label="Retake the stress test">Retake Test</button>
+      <button type="button" onclick="location.href='more2.html'" aria-label="See more stress management tips">More Tips</button>
+    </div>
+  </div>
+
+  <script>
+    // Snow animation
+    const snowContainer = document.getElementById('snow');
+    for (let i = 0; i < 60; i++) {
+      const flake = document.createElement('div');
+      flake.className = 'snowflake';
+      flake.textContent = '❄';
+      flake.style.left = Math.random() * 100 + 'vw';
+      flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+      snowContainer.appendChild(flake);
+    }
+
+    const circleFg = document.querySelector('.progress-fg');
+    const scoreText = document.getElementById('scoreText');
+    const message = document.getElementById('message');
+
+    const circumference = 2 * Math.PI * 70;
+    circleFg.style.strokeDasharray = circumference;
+    circleFg.style.strokeDashoffset = circumference;
+
+    let scoreFromStorage = localStorage.getItem('stressScore');
+
+    if (!scoreFromStorage || isNaN(scoreFromStorage)) {
+      scoreText.textContent = "--%";
+      message.innerHTML = "No score available.<br>Please take the <a href='index.html' style='color:#00cfff;'>test first</a>!";
+      circleFg.style.stroke = "#555";
+      circleFg.style.filter = "none";
+      circleFg.style.strokeDashoffset = circumference;
+    } else {
+      let finalScore = Math.min(Math.max(parseInt(scoreFromStorage), 0), 100);
+      let currentScore = 0;
+
+      function animateScore() {
+        const interval = setInterval(() => {
+          if (currentScore >= finalScore) {
+            clearInterval(interval);
+            showMessage(finalScore);
+          } else {
+            currentScore++;
+            updateDisplay(currentScore);
+          }
+        }, 15);
+      }
+
+      function updateDisplay(score) {
+        let offset = circumference - (score / 100) * circumference;
+        circleFg.style.strokeDashoffset = offset;
+        scoreText.textContent = score + "%";
+      }
+
+      function showMessage(score) {
+        if (score < 30) {
+          message.innerHTML = "நீங்கள் குறைந்த மன அழுத்தத்தை அனுபவிக்கிறீர்கள், தொடர்ந்து செயல்படுங்கள்! 😊";
+        } else if (score < 70) {
+          message.innerHTML = "நீங்கள் மிதமான மன அழுத்தத்தை அனுபவிக்கிறீர்கள். ஓய்வெடுப்பதையும் சுய பராமரிப்பையும் கருத்தில் கொள்ளுங்கள். 🧘";
+        } else {
+          message.innerHTML = "நீங்கள் அதிக மன அழுத்தத்தை அனுபவிக்கிறீர்கள். நடவடிக்கை எடுத்து ஆதரவை நாடுங்கள். 💆";
+        }
+      }
+
+      animateScore();
+    }
+
+    function retakeTest() {
+      localStorage.removeItem('stressScore');
+      window.location.href = 'index.html';
+    }
+  </script>
+
+</body>
+</html>

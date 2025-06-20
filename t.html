@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>மனஅழுத்த பகுப்பாய்வு - வினாடி வினா</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #b3e5fc, #81d4fa);
+      min-height: 100vh;
+      padding: 40px 20px;
+      margin: 0;
+      position: relative;
+      color: #003366;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 200vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-name: fall, twinkle;
+    }
+    .star.small { width: 2px; height: 2px; animation-duration: 6s, 3s; }
+    .star.medium { width: 3.5px; height: 3.5px; animation-duration: 8s, 4s; }
+    .star.large { width: 5px; height: 5px; animation-duration: 10s, 5s; }
+    @keyframes fall {
+      0% { transform: translateY(-10vh); opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 0.3; }
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px 40px;
+      border-radius: 25px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      color: #003366;
+      animation: fadeInScale 0.8s ease forwards;
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+    form { display: flex; flex-direction: column; gap: 25px; }
+    .question { display: flex; flex-direction: column; gap: 12px; }
+    label.question-label {
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .options label {
+      flex: 1 1 45%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 15px;
+      border: 2px solid transparent;
+      background: #f0f8ff;
+      color: #003366;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .options label:hover {
+      background: #cceeff;
+      border-color: #1e90ff;
+      box-shadow: 0 6px 12px rgba(30,144,255,0.3);
+    }
+    input[type="radio"] {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 3px solid #1e90ff;
+      border-radius: 50%;
+      position: relative;
+      background: white;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+      flex-shrink: 0;
+    }
+    input[type="radio"]:checked {
+      background: #1e90ff;
+      box-shadow: 0 0 8px 3px #1e90ff;
+    }
+    input[type="radio"]:checked::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+    button {
+      margin-top: 30px;
+      padding: 15px 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, #1e90ff, #63b3ed);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(30, 144, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      box-shadow: 0 9px 30px rgba(30, 144, 255, 0.9);
+      transform: translateY(-3px);
+    }
+    @keyframes fadeInScale {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @media (max-width: 600px) {
+      .options label {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+
+  <div class="container" title="Quiz Box">
+    <h1>மனஅழுத்த மதிப்பீட்டு வினாடி வினா</h1>
+    <form id="stressForm" novalidate>
+      <div id="quiz"></div>
+      <button type="submit">மதிப்பீடு செய்</button>
+    </form>
+  </div>
+
+  <script>
+    // Falling stars
+    const starsContainer = document.getElementById('stars');
+    const sizes = ['small', 'medium', 'large'];
+    for (let i = 0; i < 150; i++) {
+      const star = document.createElement('div');
+      star.className = 'star ' + sizes[Math.floor(Math.random() * sizes.length)];
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 200 + 'vh';
+      star.style.animationDelay = Math.random() * 10 + 's, ' + Math.random() * 5 + 's';
+      starsContainer.appendChild(star);
+    }
+
+    // Tamil questions and answers
+    const questions = [
+      "வேலை அல்லது பொறுப்புகள் காரணமாக நீங்கள் எவ்வளவு அடிக்கடி மனஅழுத்தம் அடைகிறீர்கள்?",
+      "மனஅழுத்தம் அல்லது எண்ண ஓட்டம் காரணமாக தூக்கம் கெடுகிறதா?",
+      "பணம் குறைபாடு அல்லது நிதி அழுத்தம் அடிக்கடி ஏற்படுகிறதா?",
+      "ஒரு நாளில் தனிப்பட்ட ஓய்வு நேரம் எவ்வளவு கிடைக்கிறது?",
+      "வேலை மற்றும் குடும்ப வாழ்க்கையை சமன் செய்ய அழுத்தம் ஏற்படுகிறதா?",
+      "ஓய்வெடுத்த பிறகும் சோர்வாக இருக்கிறீர்களா?",
+      "மனஅழுத்தத்தில் இருக்கும் போது, குடும்பம் அல்லது நண்பர்களிடம் ஆதரவு கிடைக்கிறதா?",
+      "மனஅழுத்தத்தின் போது உணவு தவிர்க்கப்படுகிறதா அல்லது தவறாக உண்ணுகிறீர்களா?",
+      "தற்போதைய வாழ்க்கைமுறையில் திருப்தியாக இருக்கிறீர்களா?",
+      "எதிர்காலம் குறித்து நீங்கள் எவ்வளவு கவலைப்படுகிறீர்கள்?"
+    ];
+
+    const optionsList = [
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"],
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"],
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"],
+      ["இல்லை", "30 நிமிடத்திற்கு குறைவாக", "30-60 நிமிடங்கள்", "1–2 மணி நேரம்", "2 மணி நேரத்திற்கு மேல்"],
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"],
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"],
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"],
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"],
+      ["ஆம்", "இல்லை", "சிலளவு", "மிகவும் குறைவாக", "மிகவும் திருப்தி"],
+      ["இல்லை", "அரிதாக", "சில நேரம்", "அடிக்கடி", "எப்போதும்"]
+    ];
+
+    const quizDiv = document.getElementById('quiz');
+    questions.forEach((question, i) => {
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+      qDiv.innerHTML = `<label class="question-label">${i + 1}. ${question}</label><div class="options" id="q${i + 1}">` +
+        optionsList[i].map((opt, j) => `
+          <label>
+            <input type="radio" name="q${i + 1}" value="${j}" required />
+            ${opt}
+          </label>
+        `).join('') + '</div>';
+      quizDiv.appendChild(qDiv);
+    });
+
+    document.getElementById('stressForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      let totalScore = 0;
+      let allAnswered = true;
+
+      for (let i = 1; i <= 10; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!selected) {
+          allAnswered = false;
+          break;
+        }
+        totalScore += parseInt(selected.value);
+      }
+
+      if (!allAnswered) {
+        alert("⚠️ தயவுசெய்து அனைத்து கேள்விகளுக்கும் பதிலளிக்கவும்!");
+        return;
+      }
+
+      const percentScore = Math.round((totalScore / 40) * 100);
+      localStorage.setItem('stressScore', percentScore);
+      window.location.href = 'c2.html';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stress Analyzer - Welcome</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      position: relative;
+      background-image: url('http://www.pixelstalk.net/wp-content/uploads/2016/06/HD-light-blue-backgrounds.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #003366;
+      user-select: none;
+    }
+
+    #starfield {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .login-box {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(220,240,255,0.85));
+      border-radius: 30px;
+      padding: 50px 45px;
+      width: 380px;
+      box-shadow:
+        0 8px 30px rgba(0, 123, 255, 0.3),
+        0 0 25px #00ccff,
+        inset 0 0 55px rgba(255,255,255,0.6);
+      backdrop-filter: blur(20px);
+      border: 2.5px solid rgba(0, 123, 255, 0.5);
+      animation: floatUpDown 6s ease-in-out infinite;
+      text-align: center;
+      color: #003366;
+    }
+
+    @keyframes floatUpDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .login-box h2 {
+      margin-bottom: 30px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      background: linear-gradient(270deg, #007bff, #00e1ff, #007bff);
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 8s ease infinite;
+      text-shadow: 0 0 12px rgba(0, 195, 255, 0.6);
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Bigger, more rounded inputs */
+    .input-field {
+      margin-bottom: 26px;
+      position: relative;
+    }
+
+    .input-field label {
+      display: block;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #004080;
+      user-select: none;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 18px 20px;
+      font-size: 18px;
+      border: 3px solid transparent;
+      border-radius: 24px;  /* more rounded corners */
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 0 0px rgba(0, 191, 255, 0.0);
+      transition: all 0.35s ease;
+      outline: none;
+      color: #003366;
+      user-select: text;
+      font-weight: 600;
+    }
+
+    .input-field input::placeholder {
+      color: #007bbfaa;
+      font-weight: 400;
+    }
+
+    .input-field input:focus {
+      border: 3px solid #00ccff;
+      box-shadow: 
+        0 0 10px #00e6ff, 
+        0 0 30px rgba(0, 221, 255, 0.7),
+        inset 0 0 16px rgba(0, 174, 255, 0.4);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(90deg, #007bff, #00bfff);
+      border: none;
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow:
+        0 0 18px #00bfff,
+        0 0 30px #00ccff,
+        0 0 50px rgba(0, 191, 255, 0.7);
+      animation: pulseGlow 3s infinite;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 0 35px #00d9ff,
+        0 0 55px #00f0ff,
+        0 0 70px #00e0ff;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow:
+          0 0 18px #00bfff,
+          0 0 30px #00ccff;
+      }
+      50% {
+        box-shadow:
+          0 0 30px #00e6ff,
+          0 0 40px #00ffff;
+      }
+    }
+
+    .footer-text {
+      margin-top: 26px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #004080;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="starfield"></canvas>
+
+  <div class="login-box">
+    <h2>Welcome... 🙏</h2>
+    <form onsubmit="handleSubmit(event)">
+      <div class="input-field">
+        <label for="name">Enter Your Name</label>
+        <input type="text" id="name" name="name" placeholder="Your full name" required autocomplete="off" />
+      </div>
+      <div class="input-field">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" placeholder="Your age" required min="3" max="100" />
+      </div>
+      <button type="submit" class="submit-btn">Continue</button>
+    </form>
+    <p class="footer-text">Welcome to our stress free society!</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    const numStars = 120;
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function randomRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    class Star {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = randomRange(0.7, 1.5);
+        this.speed = randomRange(0.02, 0.06);
+        this.opacity = randomRange(0.3, 1);
+        this.opacityDirection = Math.random() < 0.5 ? 1 : -1;
+      }
+      update() {
+        this.y -= this.speed;
+        if(this.y < 0) {
+          this.y = canvas.height;
+          this.x = Math.random() * canvas.width;
+          this.opacity = randomRange(0.3, 1);
+        }
+        this.opacity += 0.01 * this.opacityDirection;
+        if(this.opacity >= 1) this.opacityDirection = -1;
+        if(this.opacity <= 0.3) this.opacityDirection = 1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = 'aqua';
+        ctx.fill();
+      }
+    }
+
+    function initStars() {
+      stars = [];
+      for(let i = 0; i < numStars; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for(let star of stars) {
+        star.update();
+        star.draw();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      resize();
+      initStars();
+    });
+
+    resize();
+    initStars();
+    animate();
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const age = document.getElementById('age').value;
+      if (name && age) {
+        alert(`Hello ${name}, age ${age}! You have successfully logged in.`);
+        window.location.href = 'na.html';
+      }
+    }
+  </script>
+</body>
+</html>
